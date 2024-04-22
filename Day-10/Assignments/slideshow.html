@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slideshow</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #slideshow-container {
+            position: relative;
+            max-width: 800px;
+            margin: auto;
+        }
+        .slide {
+            display: none;
+            height: 300px;
+            width: 500px;
+        }
+        #prev, #next, #toggle {
+            font-size: 18px;
+            margin: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="slideshow-container">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2024/02/21/15/28/dahlia-8587940_640.jpg" alt="Slide 1">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2018/01/12/10/19/fantasy-3077928_640.jpg" alt="Slide 2">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2018/08/21/23/29/forest-3622519_640.jpg" alt="Slide 3">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2024/02/25/10/11/forsythia-8595521_1280.jpg" alt="Slide 4">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2024/03/04/16/44/barberry-8612696_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2024/01/27/18/24/squirrel-8536537_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2024/03/06/09/32/liverworts-8616125_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2014/09/14/18/04/dandelion-445228_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2023/12/08/23/46/cat-8438334_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2018/02/08/22/27/flower-3140492_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2016/02/10/21/57/heart-1192662_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2018/10/30/16/06/water-lily-3784022_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2013/08/20/15/47/poppies-174276_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2021/11/13/23/06/tree-6792528_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2023/11/26/08/27/leaves-8413064_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2015/04/19/08/32/rose-729509_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2015/04/19/08/33/flower-729512_640.jpg" alt="">
+        <img class="slide" src="https://cdn.pixabay.com/photo/2023/08/07/13/44/tree-8175062_640.jpg" alt="">
+    </div>
+    <button id="prev">Previous</button>
+    <button id="toggle">Start</button>
+    <button id="next">Next</button>
+
+    <script>
+        let slides = document.querySelectorAll('.slide');
+        let prevBtn = document.getElementById('prev');
+        let nextBtn = document.getElementById('next');
+        let toggleBtn = document.getElementById('toggle');
+        let slideIndex = 0;
+        let interval;
+
+        function showSlide(n) {
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = 'none';
+            }
+            if (n >= slides.length) {
+                slideIndex = 0;
+            } else if (n < 0) {
+                slideIndex = slides.length - 1;
+            } else {
+                slideIndex = n;
+            }
+            slides[slideIndex].style.display = 'block';
+        }
+
+        function nextSlide() {
+            clearInterval(interval);
+            showSlide(slideIndex + 1);
+        }
+
+        function prevSlide() {
+            clearInterval(interval);
+            showSlide(slideIndex - 1);
+        }
+
+        function toggleSlideshow() {
+            if (interval) {
+                clearInterval(interval);
+                interval = null;
+                toggleBtn.textContent = 'Start';
+            } else {
+                interval = setInterval(nextSlide, 2000);
+                toggleBtn.textContent = 'Stop';
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        toggleBtn.addEventListener('click', toggleSlideshow);
+
+        showSlide(slideIndex);
+        toggleSlideshow();
+    </script>
+</body>
+</html>

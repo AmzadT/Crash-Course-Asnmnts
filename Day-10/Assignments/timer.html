@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        label{
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        input {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 10px;
+            padding: 10px;
+            margin-bottom: 50px;
+        }
+
+        #parent{
+            border: 1px solid transparent;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            height: 250px;
+            width: 400px;
+            margin: auto;
+            border-radius: 5px;
+            
+        }
+
+        button {
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            margin: 10px;
+            padding: 15px 25px 15px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 80px;
+        }
+
+        #start{
+            background-color: rgb(79, 231, 49);
+        }
+
+        #pause{
+            background-color: goldenrod;
+        }
+
+        #reset{
+            background-color: orangered;
+        }
+
+    </style>
+</head>
+<body>
+    <label for="hours">Hours:</label>
+    <input type="number" id="hours" min="0" value="0">
+    <label for="minutes">Minutes:</label>
+    <input type="number" id="minutes" min="0" value="0">
+    <label for="seconds">Seconds:</label>
+    <input type="number" id="seconds" min="0" value="0"><br>
+    
+    <div id="parent">
+        <button id="start">Start</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
+    </div>
+
+    <script>
+
+        var timer;
+        var hoursInput = document.getElementById('hours');
+        var minutesInput = document.getElementById('minutes');
+        var secondsInput = document.getElementById('seconds');
+        var startBtn = document.getElementById('start');
+        var pauseBtn = document.getElementById('pause');
+        var resetBtn = document.getElementById('reset');
+        var totalSeconds;
+
+        function startTimer() {
+
+            totalSeconds = parseInt(hoursInput.value) * 3600 + parseInt(minutesInput.value) * 60 + parseInt(secondsInput.value);
+            if (isNaN(totalSeconds) || totalSeconds <= 0) 
+            {
+                alert("Please Enter/Add a Valid Time/Minutes.");
+                return;
+            }
+            timer = setInterval(updateTimer, 1000);
+            disableInputs();
+        }
+
+        function pauseTimer() {
+            clearInterval(timer);
+            enableInputs();
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            enableInputs();
+            hoursInput.value = minutesInput.value = secondsInput.value = 0;
+        }
+
+        function updateTimer() {
+            if (totalSeconds <= 0) 
+            {
+                clearInterval(timer);
+                enableInputs();
+                return;
+            }
+
+            totalSeconds--;
+            var hours = Math.floor(totalSeconds / 3600);
+            var minutes = Math.floor((totalSeconds % 3600) / 60);
+            var seconds = totalSeconds % 60;
+            hoursInput.value = hours;
+            minutesInput.value = minutes;
+            secondsInput.value = seconds;
+        }
+
+        function disableInputs() {
+            hoursInput.disabled = true;
+            minutesInput.disabled = true;
+            secondsInput.disabled = true;
+            startBtn.disabled = true;
+        }
+
+        function enableInputs() {
+            hoursInput.disabled = false;
+            minutesInput.disabled = false;
+            secondsInput.disabled = false;
+            startBtn.disabled = false;
+        }
+
+        startBtn.addEventListener('click', startTimer);
+        pauseBtn.addEventListener('click', pauseTimer);
+        resetBtn.addEventListener('click', resetTimer);
+
+    </script>
+</body>
+</html>
